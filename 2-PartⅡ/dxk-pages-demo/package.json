@@ -1,0 +1,9 @@
+{
+  "name": "dxk-pages-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "dxk-pages": "^0.4.0"
+  }
+}
