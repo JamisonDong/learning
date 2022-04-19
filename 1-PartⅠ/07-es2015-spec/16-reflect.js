@@ -1,24 +1,24 @@
-// Reflect 对象
+// !Reflect 对象
 
-// const obj = {
-//   foo: '123',
-//   bar: '456'
-// }
+const obj = {
+  foo: '123',
+  bar: '456'
+}
 
-// const proxy = new Proxy(obj, {
-//   get (target, property) {
-//     console.log('watch logic~')
+const proxy = new Proxy(obj, {
+  get (target, property) {
+    console.log('watch logic~')
     
-//     return Reflect.get(target, property)
-//   }
-// })
+    return Reflect.get(target, property)
+  }
+})
 
 // console.log(proxy.foo)
 
-const obj = {
-  name: 'zce',
-  age: 18
-}
+// const obj = {
+//   name: 'zce',
+//   age: 18
+// }
 
 // console.log('name' in obj)
 // console.log(delete obj['age'])

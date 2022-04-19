@@ -1,4 +1,4 @@
-// extends 继承
+// !extends 继承
 
 class Person {
   constructor (name) {

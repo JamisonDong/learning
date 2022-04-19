@@ -13,6 +13,6 @@ class Person {
     return new Person(name)
   }
 }
-
+// !静态方法由类本身去调用
 const tom = Person.create('tom')
 tom.say()

@@ -1,6 +1,6 @@
 // Symbol 数据类型
 
-// 场景1：扩展对象，属性名冲突问题
+// !场景1：扩展对象，属性名冲突问题
 
 // // shared.js ====================================
 
@@ -22,7 +22,7 @@
 // console.log(s)
 // console.log(typeof s)
 
-// 两个 Symbol 永远不会相等
+// !两个 Symbol 永远不会相等
 
 // console.log(
 //   Symbol() === Symbol()
@@ -54,11 +54,11 @@
 
 // a.js ======================================
 
-const name = Symbol()
+const name1 = Symbol()
 const person = {
-  [name]: 'zce',
+  [name1]: 'zce',
   say () {
-    console.log(this[name])
+    console.log(this[name1])
   }
 }
 // 只对外暴露 person
