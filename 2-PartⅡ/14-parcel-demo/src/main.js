@@ -3,8 +3,10 @@ import foo from './foo'
 import './style.css'
 import logo from './zce.png'
 
+// 自动导入 自动配置
 foo.bar()
 
+// 支持动态导入
 import('jquery').then($ => {
   $(document.body).append('<h1>Hello Parcel</h1>')
 
