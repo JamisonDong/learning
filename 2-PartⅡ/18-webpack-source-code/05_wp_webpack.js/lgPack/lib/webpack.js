@@ -1,5 +1,7 @@
 const Compiler = require('./Compiler')
 const NodeEnvironmentPlugin = require('./node/NodeEnvironmentPlugin')
+const WebpackOptionsApply = require('./WebpackOptionsApply');
+
 
 const webpack = function (options) {
   // 01 实例化compiler对象
@@ -17,7 +19,7 @@ const webpack = function (options) {
   }
 
   // 04 挂载所有 webpack 内置的插件（入口）
-
+  compiler.options = new WebpackOptionsApply().process(options, compiler)
 
   // 05 返回 compiler 对象
   return compiler
