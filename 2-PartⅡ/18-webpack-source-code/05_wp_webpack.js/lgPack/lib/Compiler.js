@@ -5,7 +5,7 @@ const {
   AsyncSeriesHook,
   AsyncParallelHook
 } = require('tapable')
-
+const Stats = require('./Stats');
 const NormalModuleFactory = require('./NormalModuleFactory')
 const Compilation = require('./Compilation');
 
@@ -39,16 +39,7 @@ class Compiler extends Tapable {
 
     const onCompiled = function (err, compilation) {
       console.log('onCompiled~~~~~');
-      finalCallback(err, {
-        toJson () {
-          return {
-            entries: [],
-            chunks: [],
-            modules: [],
-            assets: []
-          }
-        }
-      })
+      finalCallback(err, new Stats(compilation))
     }
     this.hooks.beforeRun.callAsync(this, (err) => {
       this.hooks.run.callAsync(this, (err) => {
@@ -64,7 +55,7 @@ class Compiler extends Tapable {
       const compilation = this.newCompilation(params)
       this.hooks.make.callAsync(compilation, (err) => {
         console.log('make~~~~~~')
-        callback()
+        callback(err, compilation)
       })
     })
   }
