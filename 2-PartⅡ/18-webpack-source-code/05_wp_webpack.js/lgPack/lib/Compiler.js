@@ -79,6 +79,9 @@ class Compiler extends Tapable {
 
   newCompilation (params) {
     const compilation = this.createCompilation()
+    this.hooks.thisCompilation.call(compilation, params)
+    this.hooks.compilation.call(compilation, params)
+    return compilation
   }
 
   createCompilation () {
