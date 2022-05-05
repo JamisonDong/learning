@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 
 const util = require('./util')
 
+/**@type {import ('webpack').Configuration} */  //针对webpack的智能提示
 module.exports = {
   entry: util.resolve('./src/main.js'),
   output: {
