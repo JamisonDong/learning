@@ -1,42 +1,51 @@
+const path = require('path')
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const { VueLoaderPlugin } = require('vue-loader')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
-const util = require('./util')
-
-/**@type {import ('webpack').Configuration} */  //针对webpack的智能提示
+/** @type {import('webpack').Configuration} */
 module.exports = {
-  entry: util.resolve('./src/main.js'),
+  mode: 'none',
+  entry: './src/main.js',
   output: {
-    path: util.resolve('./dist'),
-    filename: '[name].[hash:6].js'
-  },
-  resolve: {
-    extensions: ['js', '.vue', '.json'],
-    alias: {
-      'assets': util.resolve('assets'),
-      'pages': util.resolve('pages'),
-      'public': util.resolve('public'),
-      'components': util.resolve('components'),
-    }
+    path: path.join(__dirname, 'dist'),
+    filename: 'js/bundle.[contenthash:6].js'
   },
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
-        use: 'eslint-loader',
-        enforce: 'pre'
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader']
+      },
+      {
+        test: /\.less$/,
+        use: ['style-loader', 'css-loader', 'less-loader']
+      },
+      {
+        test: /\.vue$/,
+        use: 'vue-loader'
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: {
+          loader: 'url-loader', // 能转 base64 就转, fallback file-loader
+          options: {
+            name: 'img/[name].[contenthash:6].[ext]',
+            esModule: false,
+            limit: 2 * 1024 // kb
+          }
+        }
       }
     ]
   },
   plugins: [
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
-      title: 'my vue',
-      filename: 'index.html',
-      template: 'src/index.html',
-      inject: true,
-      url: 'public/'
+      template: './public/index.html',
+      title: 'Vue App Sample'
     }),
-    new VueLoaderPlugin()
+    new webpack.DefinePlugin({
+      BASE_URL: '"/"'
+    })
   ]
-};
-
+}
