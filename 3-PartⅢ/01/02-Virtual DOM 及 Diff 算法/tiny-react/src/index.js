@@ -20,8 +20,7 @@ const virtualDOM = (
   </div>
 )
 
-TinyReact.render(virtualDOM, root)
-console.log(virtualDOM);
+// TinyReact.render(virtualDOM, root)
 
 // const modifyDOM = (
 //   <div className="container">
@@ -44,54 +43,26 @@ console.log(virtualDOM);
 // //   TinyReact.render(modifyDOM, root)
 // // }, 2000)
 
-// function Demo() {
-//   return <div>Hello</div>
-// }
 
-// function Heart(props) {
-//   return (
-//     <div>
-//       {props.title}
-//       &hearts; <Demo />
-//     </div>
-//   )
-// }
 
-// // TinyReact.render(<Heart title="Hello React" />, root)
+function Demo () {
+  return <div>Hello</div>
+}
 
-// class Alert extends TinyReact.Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       title: "Default Title"
-//     }
-//     this.handleClick = this.handleClick.bind(this)
-//   }
-//   handleClick() {
-//     this.setState({ title: "Changed Title" })
-//   }
-//   componentWillReceiveProps(nextProps) {
-//     console.log("componentWillReceiveProps")
-//   }
-//   componentWillUpdate() {
-//     console.log("componentWillUpdate")
-//   }
-//   componentDidUpdate() {
-//     console.log("componentDidUpdate")
-//   }
-//   render() {
-//     return (
-//       <div>
-//         {this.props.name}
-//         {this.props.age}
-//         <div>
-//           {this.state.title}
-//           <button onClick={this.handleClick}>改变Title</button>
-//         </div>
-//       </div>
-//     )
-//   }
-// }
+function Heart (props) {
+  return (
+    <div>
+      {props.title}
+      &hearts; <Demo />
+    </div>
+  )
+}
+
+// TinyReact.render(<Heart title="Hello React" />, root)
+
+class Alert extends TinyReact.Component {
+
+}
 
 // // TinyReact.render(<Alert name="张三" age={20} />, root)
 
