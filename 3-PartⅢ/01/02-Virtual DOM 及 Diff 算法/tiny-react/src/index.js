@@ -45,18 +45,18 @@ const root = document.getElementById("root")
 
 
 
-// function Demo () {
-//   return <div>Hello</div>
-// }
+function Demo () {
+  return <div>Hello</div>
+}
 
-// function Heart (props) {
-//   return (
-//     <div>
-//       {props.title}
-//       &hearts; <Demo />
-//     </div>
-//   )
-// }
+function Heart (props) {
+  return (
+    <div>
+      {props.title}
+      &hearts; <Demo />
+    </div>
+  )
+}
 
 // TinyReact.render(<Heart title="Hello React" />, root)
 
@@ -74,10 +74,8 @@ class Alert extends TinyReact.Component {
     })
   }
   render () {
-    console.log(this.state);
     return (
       <div>
-        Hello React
         {this.props.name}
         {this.props.age}
         <div>
@@ -92,10 +90,10 @@ class Alert extends TinyReact.Component {
 
 TinyReact.render(<Alert name="张三" age={20} />, root)
 
-// setTimeout(() => {
-//   TinyReact.render(<Alert name="李四" age={50} />, root)
-//   // TinyReact.render(<Heart title="我是Heart组件" />, root)
-// }, 2000)
+setTimeout(() => {
+  TinyReact.render(<Alert name="李四" age={50} />, root)
+  // TinyReact.render(<Heart title="我是Heart组件" />, root)
+}, 2000)
 
 // class DemoRef extends TinyReact.Component {
 //   constructor(props) {
