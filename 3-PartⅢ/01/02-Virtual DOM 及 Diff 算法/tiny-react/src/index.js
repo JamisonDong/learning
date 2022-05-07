@@ -20,8 +20,6 @@ const virtualDOM = (
   </div>
 )
 
-// TinyReact.render(virtualDOM, root)
-
 const modifyDOM = (
   <div className="container">
     <h1>你好 Tiny React</h1>
@@ -32,6 +30,7 @@ const modifyDOM = (
     <h3>(观察: 这个将会被改变)</h3>
     {2 == 1 && <div>如果2和1相等渲染当前内容</div>}
     {2 == 2 && <div>2</div>}
+    <span>这是一段改变的内容</span>
     <button onClick={() => alert("你好!!!!!")}>点击我</button>
     <input type="text" value="13" />
   </div>
@@ -45,35 +44,35 @@ setTimeout(() => {
 
 
 
-function Demo () {
-  return <div>Hello</div>
-}
+// function Demo () {
+//   return <div>Hello</div>
+// }
 
-function Heart (props) {
-  return (
-    <div>
-      {props.title}
-      &hearts; <Demo />
-    </div>
-  )
-}
+// function Heart (props) {
+//   return (
+//     <div>
+//       {props.title}
+//       &hearts; <Demo />
+//     </div>
+//   )
+// }
 
 // TinyReact.render(<Heart title="Hello React" />, root)
 
-class Alert extends TinyReact.Component {
-  constructor(props) {
-    super(props)
-  }
-  render () {
-    return (
-      <div>
-        Hello React
-        {this.props.name}
-        {this.props.age}
-      </div>
-    )
-  }
-}
+// class Alert extends TinyReact.Component {
+//   constructor(props) {
+//     super(props)
+//   }
+//   render () {
+//     return (
+//       <div>
+//         Hello React
+//         {this.props.name}
+//         {this.props.age}
+//       </div>
+//     )
+//   }
+// }
 
 
 // TinyReact.render(<Alert name="张三" age={20} />, root)
