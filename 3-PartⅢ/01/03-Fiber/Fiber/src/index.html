@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .playground {
+        background: palevioletred;
+        padding: 20px;
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="playground" id="play">playground</div>
+    <button id="work">start work</button>
+    <button id="interaction">handle some user interaction</button>
+    <script>
+      var box = document.getElementById('play')
+      var work = document.getElementById('work')
+      var interaction = document.getElementById('interaction')
+      var number = 99999
+      var value = 0
+      function calc(deadline) {
+        // deadline.timeRemaining() 获取浏览器的空余时间
+        while (number > 0 && deadline.timeRemaining() > 1) {
+          value = Math.random() < 0.5 ? Math.random() : Math.random()
+          console.log(value)
+          number--
+        }
+        requestIdleCallback(calc)
+      }
+      work.onclick = function () {
+        requestIdleCallback(calc)
+      }
+      interaction.onclick = function () {
+        box.style.background = 'green'
+      }
+    </script>
+  </body>
+</html>
