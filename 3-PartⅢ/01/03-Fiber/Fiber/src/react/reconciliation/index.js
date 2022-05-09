@@ -1,11 +1,64 @@
-import { createTaskQueue } from "../Misc"
-
+import { createTaskQueue, arrified, createStateNode } from "../Misc"
 
 const taskQueue = createTaskQueue()
 
-const subTask = null
-const getFirstTask = () => { }
-const executeTask = (fiber) => { }
+let subTask = null
+const getFirstTask = () => {
+  // 从任务队列中获取任务
+  const task = taskQueue.pop()
+  /**
+   * 返回最外层节点的fiber对象
+   */
+  return {
+    props: task.props,
+    stateNode: task.dom,
+    tag: "host_root",
+    effects: [],
+    child: null
+  }
+}
+
+const reconcileChildren = (fiber, children) => {
+  /**
+   * children 可能是对象 也可能是数组 
+   * 将children 转换为数组
+   */
+  const arrifiedChildren = arrified(children)
+
+  let index = 0
+  let numberOfElements = arrifiedChildren.length
+  let element = null
+  let newFiber = null
+  let prevFiber = null
+  while (index < numberOfElements) {
+    element = arrifiedChildren[index]
+    // 子级fiber对象
+    newFiber = {
+      type: element.type,
+      props: element.props,
+      tag: "host_component",
+      effects: [],
+      effectTag: "placement",
+      parent: fiber,
+    }
+
+    newFiber.stateNode = createStateNode(newFiber)
+
+    if (index == 0) {
+      fiber.child = newFiber
+    } else {
+      prevFiber.sibling = newFiber
+    }
+    prevFiber = newFiber
+    index++
+  }
+}
+
+const executeTask = (fiber) => {
+  reconcileChildren(fiber, fiber.props.children)
+  console.log(fiber);
+}
+
 const workLoop = (deadline) => {
   // 如果子任务不存在 获取子任务
   if (!subTask) {
