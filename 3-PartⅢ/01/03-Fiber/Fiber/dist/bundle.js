@@ -137,14 +137,20 @@ var Greating = /*#__PURE__*/function (_Component) {
   _createClass(Greating, [{
     key: "render",
     value: function render() {
-      return /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, "hahaha");
+      return /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, this.props.title);
     }
   }]);
 
   return Greating;
 }(_react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
-Object(_react__WEBPACK_IMPORTED_MODULE_0__["render"])( /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement(Greating, null), root);
+function FnComponent(props) {
+  return /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, props.title);
+}
+
+Object(_react__WEBPACK_IMPORTED_MODULE_0__["render"])( /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement(Greating, {
+  title: "hello react"
+}), root);
 
 /***/ }),
 
@@ -522,12 +528,27 @@ var pendingCommit = null;
 var commitAllWork = function commitAllWork(fiber) {
   fiber.effects.forEach(function (item) {
     if (item.effectTag === "placement") {
+      /**
+       * 当前要追加的子节点
+       */
       var _fiber = item;
-      var parentFiber = item.parent;
+      /**
+       * 当前要追加的子节点的父级
+       */
 
-      while (parentFiber.tag === "class_component") {
+      var parentFiber = item.parent;
+      /**
+       * 找到普通节点父级 排除组件父级
+       * 组件父级不能直接追加真是DOM节点
+       */
+
+      while (parentFiber.tag === "class_component" || parentFiber.tag === "function_component") {
         parentFiber = parentFiber.parent;
       }
+      /**
+       * 如果子节点是普通节点 找到父级 将子节点追加到父级中
+       */
+
 
       if (_fiber.tag === "host_component") {
         parentFiber.stateNode.appendChild(_fiber.stateNode);
@@ -595,6 +616,8 @@ var executeTask = function executeTask(fiber) {
    */
   if (fiber.tag === "class_component") {
     reconcileChildren(fiber, fiber.stateNode.render());
+  } else if (fiber.tag === "function_component") {
+    reconcileChildren(fiber, fiber.stateNode(fiber.props));
   } else {
     reconcileChildren(fiber, fiber.props.children);
   }
