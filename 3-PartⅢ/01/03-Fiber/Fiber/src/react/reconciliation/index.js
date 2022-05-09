@@ -56,6 +56,22 @@ const reconcileChildren = (fiber, children) => {
 
 const executeTask = (fiber) => {
   reconcileChildren(fiber, fiber.props.children)
+  if (fiber.child) {
+    return fiber.child
+  }
+
+  /**
+   * 如果存在同级  返回同级  构建同级的子级
+   * 如果同级不存在 返回到父级 看父级是否有同级
+   */
+  let currentExecuteFiber = fiber
+  while (currentExecuteFiber.parent) {
+    if (currentExecuteFiber.sibling) {
+      return currentExecuteFiber.sibling
+    }
+    currentExecuteFiber = currentExecuteFiber.parent
+  }
+
   console.log(fiber);
 }
 
@@ -65,7 +81,7 @@ const workLoop = (deadline) => {
     subTask = getFirstTask()
   }
 
-  // 如果任务存在辟邪浏览器有空余时间
+  // 如果任务存在 && 浏览器有空余时间
   // 调用executeTask执行任务 接受任务 返回新的任务
   while (subTask && deadline.timeRemaining() > 1) {
     subTask = executeTask(subTask)

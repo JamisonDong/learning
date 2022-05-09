@@ -98,7 +98,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./react */ "./src/react/index.js");
 
 var root = document.getElementById("root");
-var jsx = /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("p", null, "Hello React"));
+var jsx = /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("p", null, "Hello React"), /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("p", null, "Hi Fiber"));
 Object(_react__WEBPACK_IMPORTED_MODULE_0__["render"])(jsx, root);
 
 /***/ }),
@@ -464,6 +464,26 @@ var reconcileChildren = function reconcileChildren(fiber, children) {
 
 var executeTask = function executeTask(fiber) {
   reconcileChildren(fiber, fiber.props.children);
+
+  if (fiber.child) {
+    return fiber.child;
+  }
+  /**
+   * 如果存在同级  返回同级  构建同级的子级
+   * 如果同级不存在 返回到父级 看父级是否有同级
+   */
+
+
+  var currentExecuteFiber = fiber;
+
+  while (currentExecuteFiber.parent) {
+    if (currentExecuteFiber.sibling) {
+      return currentExecuteFiber.sibling;
+    }
+
+    currentExecuteFiber = currentExecuteFiber.parent;
+  }
+
   console.log(fiber);
 };
 
@@ -471,7 +491,7 @@ var workLoop = function workLoop(deadline) {
   // 如果子任务不存在 获取子任务
   if (!subTask) {
     subTask = getFirstTask();
-  } // 如果任务存在辟邪浏览器有空余时间
+  } // 如果任务存在 && 浏览器有空余时间
   // 调用executeTask执行任务 接受任务 返回新的任务
 
 
