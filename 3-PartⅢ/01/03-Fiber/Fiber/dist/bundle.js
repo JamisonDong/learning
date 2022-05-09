@@ -273,6 +273,28 @@ var arrified = function arrified(arg) {
 
 /***/ }),
 
+/***/ "./src/react/Misc/CreateStateNode/index.js":
+/*!*************************************************!*\
+  !*** ./src/react/Misc/CreateStateNode/index.js ***!
+  \*************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../DOM */ "./src/react/DOM/index.js");
+
+
+var createStateNode = function createStateNode(fiber) {
+  if (fiber.tag === "host_component") {
+    return Object(_DOM__WEBPACK_IMPORTED_MODULE_0__["createDOMElement"])(fiber);
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (createStateNode);
+
+/***/ }),
+
 /***/ "./src/react/Misc/CreateTaskQueue/index.js":
 /*!*************************************************!*\
   !*** ./src/react/Misc/CreateTaskQueue/index.js ***!
@@ -305,25 +327,22 @@ var createTaskQueue = function createTaskQueue() {
 
 /***/ }),
 
-/***/ "./src/react/Misc/createStateNode/index.js":
-/*!*************************************************!*\
-  !*** ./src/react/Misc/createStateNode/index.js ***!
-  \*************************************************/
+/***/ "./src/react/Misc/GetTag/index.js":
+/*!****************************************!*\
+  !*** ./src/react/Misc/GetTag/index.js ***!
+  \****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _DOM__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../DOM */ "./src/react/DOM/index.js");
-
-
-var createStateNode = function createStateNode(fiber) {
-  if (fiber.tag === "host_component") {
-    return Object(_DOM__WEBPACK_IMPORTED_MODULE_0__["createDOMElement"])(fiber);
+var getTag = function getTag(vdom) {
+  if (typeof vdom.type === 'string') {
+    return "host_component";
   }
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (createStateNode);
+/* harmony default export */ __webpack_exports__["default"] = (getTag);
 
 /***/ }),
 
@@ -331,7 +350,7 @@ var createStateNode = function createStateNode(fiber) {
 /*!*********************************!*\
   !*** ./src/react/Misc/index.js ***!
   \*********************************/
-/*! exports provided: createTaskQueue, arrified, createStateNode */
+/*! exports provided: createTaskQueue, arrified, createStateNode, getTag */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -342,8 +361,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Arrified__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Arrified */ "./src/react/Misc/Arrified/index.js");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "arrified", function() { return _Arrified__WEBPACK_IMPORTED_MODULE_1__["default"]; });
 
-/* harmony import */ var _createStateNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./createStateNode */ "./src/react/Misc/createStateNode/index.js");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createStateNode", function() { return _createStateNode__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+/* harmony import */ var _CreateStateNode__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./CreateStateNode */ "./src/react/Misc/CreateStateNode/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createStateNode", function() { return _CreateStateNode__WEBPACK_IMPORTED_MODULE_2__["default"]; });
+
+/* harmony import */ var _GetTag__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./GetTag */ "./src/react/Misc/GetTag/index.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getTag", function() { return _GetTag__WEBPACK_IMPORTED_MODULE_3__["default"]; });
+
 
 
 
@@ -421,7 +444,7 @@ var reconcileChildren = function reconcileChildren(fiber, children) {
     newFiber = {
       type: element.type,
       props: element.props,
-      tag: "host_component",
+      tag: Object(_Misc__WEBPACK_IMPORTED_MODULE_0__["getTag"])(element),
       effects: [],
       effectTag: "placement",
       parent: fiber
