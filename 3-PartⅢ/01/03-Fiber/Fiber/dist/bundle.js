@@ -409,6 +409,16 @@ __webpack_require__.r(__webpack_exports__);
 
 var taskQueue = Object(_Misc__WEBPACK_IMPORTED_MODULE_0__["createTaskQueue"])();
 var subTask = null;
+var pendingCommit = null;
+
+var commitAllWork = function commitAllWork(fiber) {
+  console.log(fiber.effects);
+  fiber.effects.forEach(function (item) {
+    if (item.effectTag === "placement") {
+      item.parent.stateNode.appendChild(item.stateNode);
+    }
+  });
+};
 
 var getFirstTask = function getFirstTask() {
   // 从任务队列中获取任务
@@ -477,6 +487,8 @@ var executeTask = function executeTask(fiber) {
   var currentExecuteFiber = fiber;
 
   while (currentExecuteFiber.parent) {
+    currentExecuteFiber.parent.effects = currentExecuteFiber.parent.effects.concat(currentExecuteFiber.effects.concat([currentExecuteFiber]));
+
     if (currentExecuteFiber.sibling) {
       return currentExecuteFiber.sibling;
     }
@@ -484,7 +496,7 @@ var executeTask = function executeTask(fiber) {
     currentExecuteFiber = currentExecuteFiber.parent;
   }
 
-  console.log(fiber);
+  pendingCommit = currentExecuteFiber;
 };
 
 var workLoop = function workLoop(deadline) {
@@ -497,6 +509,13 @@ var workLoop = function workLoop(deadline) {
 
   while (subTask && deadline.timeRemaining() > 1) {
     subTask = executeTask(subTask);
+    /**
+     * 第二阶段 渲染阶段
+     */
+
+    if (pendingCommit) {
+      commitAllWork(pendingCommit);
+    }
   }
 };
 
