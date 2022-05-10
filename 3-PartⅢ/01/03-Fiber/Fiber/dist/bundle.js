@@ -124,7 +124,7 @@ var root = document.getElementById("root");
 var jsx = /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("p", null, "Hello React"), /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("p", null, "Hi Fiber"));
 Object(_react__WEBPACK_IMPORTED_MODULE_0__["render"])(jsx, root);
 setTimeout(function () {
-  var jsx = /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, "\u5965\u5229\u7ED9"), /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("p", null, "Hi Fiber"));
+  var jsx = /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, /*#__PURE__*/_react__WEBPACK_IMPORTED_MODULE_0__["default"].createElement("div", null, "\u5965\u5229\u7ED9"));
   Object(_react__WEBPACK_IMPORTED_MODULE_0__["render"])(jsx, root);
 }, 2000);
 
@@ -543,8 +543,14 @@ var subTask = null;
 var pendingCommit = null;
 
 var commitAllWork = function commitAllWork(fiber) {
+  /**
+   * 循环 effects 数组 构建DOM节点树
+   */
   fiber.effects.forEach(function (item) {
-    if (item.effectTag === "update") {
+    if (item.effectTag === "delete") {
+      /**删除操作 */
+      item.parent.stateNode.removeChild(item.stateNode);
+    } else if (item.effectTag === "update") {
       /**
        * 更新
        */
@@ -648,13 +654,19 @@ var reconcileChildren = function reconcileChildren(fiber, children) {
     alternate = fiber.alternate.child;
   }
 
-  while (index < numberOfElements) {
+  while (index < numberOfElements || alternate) {
     /**
      * 子级 virtualDOM 对象
      */
     element = arrifiedChildren[index];
 
-    if (element && alternate) {
+    if (!element && alternate) {
+      /**
+       * 删除操作
+       */
+      alternate.effectTag = "delete";
+      fiber.effects.push(alternate);
+    } else if (element && alternate) {
       /**
        * 更新
        */
@@ -698,9 +710,9 @@ var reconcileChildren = function reconcileChildren(fiber, children) {
       newFiber.stateNode = Object(_Misc__WEBPACK_IMPORTED_MODULE_1__["createStateNode"])(newFiber);
     }
 
-    if (index == 0) {
+    if (index === 0) {
       fiber.child = newFiber;
-    } else {
+    } else if (element) {
       prevFiber.sibling = newFiber;
     }
 
@@ -727,6 +739,11 @@ var executeTask = function executeTask(fiber) {
   } else {
     reconcileChildren(fiber, fiber.props.children);
   }
+  /**
+   * 如果子级存在 返回子级
+   * 将这个子级当做父级 构建这个父级下的子级
+   */
+
 
   if (fiber.child) {
     return fiber.child;
@@ -762,23 +779,24 @@ var workLoop = function workLoop(deadline) {
 
   while (subTask && deadline.timeRemaining() > 1) {
     subTask = executeTask(subTask);
-    /**
-     * 第二阶段 渲染阶段
-     */
+  }
+  /**
+   * 第二阶段 渲染阶段
+   */
 
-    if (pendingCommit) {
-      commitAllWork(pendingCommit);
-    }
+
+  if (pendingCommit) {
+    commitAllWork(pendingCommit);
   }
 };
 
-var preformTask = function preformTask(deadline) {
+var performTask = function performTask(deadline) {
   // 执行任务
   workLoop(deadline); // 判断任务是否存在  任务队列中是否还有任务未执行
 
   if (subTask || !taskQueue.isEmpty()) {
     // 有任务在空闲时继续执行
-    requestIdleCallback(preformTask);
+    requestIdleCallback(performTask);
   }
 };
 
@@ -798,7 +816,7 @@ var render = function render(element, dom) {
     }
   }); // 指定在浏览器空闲时执行任务
 
-  requestIdleCallback(preformTask);
+  requestIdleCallback(performTask);
 };
 
 /***/ })

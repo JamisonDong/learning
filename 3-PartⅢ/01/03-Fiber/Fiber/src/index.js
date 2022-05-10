@@ -15,7 +15,7 @@ setTimeout(() => {
   const jsx = (
     <div>
       <div>奥利给</div>
-      <p>Hi Fiber</p>
+      {/* <p>Hi Fiber</p> */}
     </div>
   )
   render(jsx, root)
