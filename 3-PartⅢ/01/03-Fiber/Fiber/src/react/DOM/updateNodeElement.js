@@ -56,9 +56,9 @@ export default function updateNodeElement (newElement, virtualDOM, oldVirtualDOM
       if (propName.slice(0, 2) === 'on') {
         const eventName = propName.toLowerCase().slice(2)
         newElement.removeEventListener(eventName, oldPropsValue)
+      } else if (propName !== 'children') {
+        newElement.removeAttribute(propName)
       }
-    } else if (propName !== 'children') {
-      newElement.removeAttribute(propName)
     }
   })
 };
