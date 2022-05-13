@@ -7,7 +7,7 @@
 
 import getComponentName from 'shared/getComponentName';
 import invariant from 'shared/invariant';
-import {REACT_ELEMENT_TYPE} from 'shared/ReactSymbols';
+import { REACT_ELEMENT_TYPE } from 'shared/ReactSymbols';
 
 import ReactCurrentOwner from './ReactCurrentOwner';
 
@@ -32,7 +32,7 @@ if (__DEV__) {
  * 查看参数对象中是否有合法的 ref 属性
  * 返回布尔值
  */
-function hasValidRef(config) {
+function hasValidRef (config) {
   // 在开发环境下
   if (__DEV__) {
     // 查看 config 对象的自有属性中是否有 ref 属性
@@ -50,7 +50,7 @@ function hasValidRef(config) {
  * 查看参数对象中是否有合法的 key 属性
  * 返回布尔值
  */
-function hasValidKey(config) {
+function hasValidKey (config) {
   if (__DEV__) {
     if (hasOwnProperty.call(config, 'key')) {
       const getter = Object.getOwnPropertyDescriptor(config, 'key').get;
@@ -68,7 +68,7 @@ function hasValidKey(config) {
  *  displayName  组件名称标识
  */
 
-function defineKeyPropWarningGetter(props, displayName) {
+function defineKeyPropWarningGetter (props, displayName) {
   // 通过 props 对象获取 key 属性报错
   const warnAboutAccessingKey = function () {
     // 在开发环境中
@@ -80,9 +80,9 @@ function defineKeyPropWarningGetter(props, displayName) {
         // 指定报错信息和组件名称
         console.error(
           '%s: `key` is not a prop. Trying to access it will result ' +
-            'in `undefined` being returned. If you need to access the same ' +
-            'value within the child component, you should pass it as a different ' +
-            'prop. (https://reactjs.org/link/special-props)',
+          'in `undefined` being returned. If you need to access the same ' +
+          'value within the child component, you should pass it as a different ' +
+          'prop. (https://reactjs.org/link/special-props)',
           displayName,
         );
       }
@@ -102,7 +102,7 @@ function defineKeyPropWarningGetter(props, displayName) {
  *  props        组件中的 props 对象
  *  displayName  组件名称标识
  */
-function defineRefPropWarningGetter(props, displayName) {
+function defineRefPropWarningGetter (props, displayName) {
   // 通过 props 对象获取 ref 属性报错
   const warnAboutAccessingRef = function () {
     if (__DEV__) {
@@ -113,9 +113,9 @@ function defineRefPropWarningGetter(props, displayName) {
         // 指定报错信息和组件名称
         console.error(
           '%s: `ref` is not a prop. Trying to access it will result ' +
-            'in `undefined` being returned. If you need to access the same ' +
-            'value within the child component, you should pass it as a different ' +
-            'prop. (https://reactjs.org/link/special-props)',
+          'in `undefined` being returned. If you need to access the same ' +
+          'value within the child component, you should pass it as a different ' +
+          'prop. (https://reactjs.org/link/special-props)',
           displayName,
         );
       }
@@ -133,7 +133,7 @@ function defineRefPropWarningGetter(props, displayName) {
 /**
  * 在开发环境中如果 ref 属性接收的值为字符串 报警告
  */
-function warnIfStringRefCannotBeAutoConverted(config) {
+function warnIfStringRefCannotBeAutoConverted (config) {
   // 在开发环境下
   if (__DEV__) {
     // 如果 ref 属性的值是字符串类型
@@ -148,11 +148,11 @@ function warnIfStringRefCannotBeAutoConverted(config) {
       if (!didWarnAboutStringRefs[componentName]) {
         console.error(
           'Component "%s" contains the string ref "%s". ' +
-            'Support for string refs will be removed in a future major release. ' +
-            'This case cannot be automatically converted to an arrow function. ' +
-            'We ask you to manually fix this case by using useRef() or createRef() instead. ' +
-            'Learn more about using refs safely here: ' +
-            'https://reactjs.org/link/strict-mode-string-ref',
+          'Support for string refs will be removed in a future major release. ' +
+          'This case cannot be automatically converted to an arrow function. ' +
+          'We ask you to manually fix this case by using useRef() or createRef() instead. ' +
+          'Learn more about using refs safely here: ' +
+          'https://reactjs.org/link/strict-mode-string-ref',
           componentName,
           config.ref,
         );
@@ -246,7 +246,7 @@ const ReactElement = function (type, key, ref, self, source, owner, props) {
  * @param {object} props
  * @param {string} key
  */
-export function jsx(type, config, maybeKey) {
+export function jsx (type, config, maybeKey) {
   let propName;
 
   // Reserved names are extracted
@@ -310,7 +310,7 @@ export function jsx(type, config, maybeKey) {
  * @param {object} props
  * @param {string} key
  */
-export function jsxDEV(type, config, maybeKey, source, self) {
+export function jsxDEV (type, config, maybeKey, source, self) {
   let propName;
 
   // Reserved names are extracted
@@ -397,7 +397,7 @@ export function jsxDEV(type, config, maybeKey, source, self) {
  * 3. 为 props 属性赋默认值 (defaultProps)
  * 4. 创建并返回 ReactElement
  */
-export function createElement(type, config, children) {
+export function createElement (type, config, children) {
   /**
    * propName -> 属性名称
    * 用于后面的 for 循环
@@ -563,7 +563,7 @@ export function createElement(type, config, children) {
  * 作用是返回一个函数 用于根据给定的类型创建 ReactElement
  * 官方推荐直接使用 JSX 或者 React.createElement 方法直接创建 ReactElement
  */
-export function createFactory(type) {
+export function createFactory (type) {
   const factory = createElement.bind(null, type);
   // Expose the type on the factory and the prototype so that it can be
   // easily accessed on elements. E.g. `<Foo />.type === Foo`.
@@ -577,7 +577,7 @@ export function createFactory(type) {
 /**
  * 克隆 ReactElement 并替换新 key
  */
-export function cloneAndReplaceKey(oldElement, newKey) {
+export function cloneAndReplaceKey (oldElement, newKey) {
   const newElement = ReactElement(
     oldElement.type,
     newKey,
@@ -595,7 +595,7 @@ export function cloneAndReplaceKey(oldElement, newKey) {
  * 克隆 ReactElement
  * 返回新的 ReactElement
  */
-export function cloneElement(element, config, children) {
+export function cloneElement (element, config, children) {
   // 如果 element 参数为 null 或者 undefined 报错
   invariant(
     !(element === null || element === undefined),
@@ -674,7 +674,7 @@ export function cloneElement(element, config, children) {
  * object 不为 null
  * object 对象中的 $$typeof 属性值为 REACT_ELEMENT_TYPE
  */
-export function isValidElement(object) {
+export function isValidElement (object) {
   return (
     typeof object === 'object' &&
     object !== null &&

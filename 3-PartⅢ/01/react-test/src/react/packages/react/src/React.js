@@ -14,9 +14,9 @@ import {
   REACT_SUSPENSE_LIST_TYPE,
 } from 'shared/ReactSymbols';
 
-import {Component, PureComponent} from './ReactBaseClasses';
-import {createRef} from './ReactCreateRef';
-import {forEach, map, count, toArray, only} from './ReactChildren';
+import { Component, PureComponent } from './ReactBaseClasses';
+import { createRef } from './ReactCreateRef';
+import { forEach, map, count, toArray, only } from './ReactChildren';
 import {
   createElement as createElementProd,
   createFactory as createFactoryProd,
@@ -24,8 +24,8 @@ import {
   isValidElement,
   jsx as jsxProd,
 } from './ReactElement';
-import {createContext} from './ReactContext';
-import {lazy} from './ReactLazy';
+import { createContext } from './ReactContext';
+import { lazy } from './ReactLazy';
 import forwardRef from './forwardRef';
 import memo from './memo';
 import block from './block';
@@ -44,7 +44,7 @@ import {
   useTransition,
   useDeferredValue,
 } from './ReactHooks';
-import {withSuspenseConfig} from './ReactBatchConfig';
+import { withSuspenseConfig } from './ReactBatchConfig';
 import {
   createElementWithValidation,
   createFactoryWithValidation,

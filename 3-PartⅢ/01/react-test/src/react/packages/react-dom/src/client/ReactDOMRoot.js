@@ -7,17 +7,17 @@
  * @flow
  */
 
-import type {Container} from './ReactDOMHostConfig';
-import type {RootTag} from 'shared/ReactRootTags';
-import type {ReactNodeList} from 'shared/ReactTypes';
+import type { Container } from './ReactDOMHostConfig';
+import type { RootTag } from 'shared/ReactRootTags';
+import type { ReactNodeList } from 'shared/ReactTypes';
 // TODO: This type is shared between the reconciler and ReactDOM, but will
 // eventually be lifted out to the renderer.
-import type {FiberRoot} from 'react-reconciler/src/ReactFiberRoot';
-import {findHostInstanceWithNoPortals} from 'react-reconciler/inline.dom';
+import type { FiberRoot } from 'react-reconciler/src/ReactFiberRoot';
+import { findHostInstanceWithNoPortals } from 'react-reconciler/inline.dom';
 
 export type RootType = {
-  render(children: ReactNodeList): void,
-  unmount(): void,
+  render (children: ReactNodeList): void,
+  unmount (): void,
   _internalRoot: FiberRoot,
   ...
 };
@@ -37,7 +37,7 @@ import {
   markContainerAsRoot,
   unmarkContainerAsRoot,
 } from './ReactDOMComponentTree';
-import {eagerlyTrapReplayableEvents} from '../events/ReactDOMEventReplaying';
+import { eagerlyTrapReplayableEvents } from '../events/ReactDOMEventReplaying';
 import {
   ELEMENT_NODE,
   COMMENT_NODE,
@@ -45,18 +45,18 @@ import {
   DOCUMENT_FRAGMENT_NODE,
 } from '../shared/HTMLNodeType';
 
-import {createContainer, updateContainer} from 'react-reconciler/inline.dom';
+import { createContainer, updateContainer } from 'react-reconciler/inline.dom';
 import invariant from 'shared/invariant';
-import {BlockingRoot, ConcurrentRoot, LegacyRoot} from 'shared/ReactRootTags';
+import { BlockingRoot, ConcurrentRoot, LegacyRoot } from 'shared/ReactRootTags';
 
-function ReactDOMRoot(container: Container, options: void | RootOptions) {
+function ReactDOMRoot (container: Container, options: void | RootOptions) {
   this._internalRoot = createRootImpl(container, ConcurrentRoot, options);
 }
 /**
  * 创建 ReactDOMBlockingRoot 的类
  * 通过它可以创建 LegacyRoot 的 Fiber 数据结构
  */
-function ReactDOMBlockingRoot(
+function ReactDOMBlockingRoot (
   container: Container,
   tag: RootTag,
   options: void | RootOptions,
@@ -75,7 +75,7 @@ ReactDOMRoot.prototype.render = ReactDOMBlockingRoot.prototype.render = function
     if (typeof arguments[1] === 'function') {
       console.error(
         'render(...): does not support the second callback argument. ' +
-          'To execute a side effect after rendering, declare it in a component body with useEffect().',
+        'To execute a side effect after rendering, declare it in a component body with useEffect().',
       );
     }
     const container = root.containerInfo;
@@ -86,9 +86,9 @@ ReactDOMRoot.prototype.render = ReactDOMBlockingRoot.prototype.render = function
         if (hostInstance.parentNode !== container) {
           console.error(
             'render(...): It looks like the React-rendered content of the ' +
-              'root container was removed without using React. This is not ' +
-              'supported and will cause errors. Instead, call ' +
-              "root.unmount() to empty a root's container.",
+            'root container was removed without using React. This is not ' +
+            'supported and will cause errors. Instead, call ' +
+            "root.unmount() to empty a root's container.",
           );
         }
       }
@@ -102,7 +102,7 @@ ReactDOMRoot.prototype.unmount = ReactDOMBlockingRoot.prototype.unmount = functi
     if (typeof arguments[0] === 'function') {
       console.error(
         'unmount(...): does not support a callback argument. ' +
-          'To execute a side effect after rendering, declare it in a component body with useEffect().',
+        'To execute a side effect after rendering, declare it in a component body with useEffect().',
       );
     }
   }
@@ -112,7 +112,7 @@ ReactDOMRoot.prototype.unmount = ReactDOMBlockingRoot.prototype.unmount = functi
     unmarkContainerAsRoot(container);
   });
 };
-function createRootImpl(
+function createRootImpl (
   container: Container,
   tag: RootTag,
   options: void | RootOptions,
@@ -138,7 +138,7 @@ function createRootImpl(
   return root;
 }
 
-export function createRoot(
+export function createRoot (
   container: Container,
   options?: RootOptions,
 ): RootType {
@@ -150,7 +150,7 @@ export function createRoot(
   return new ReactDOMRoot(container, options);
 }
 
-export function createBlockingRoot(
+export function createBlockingRoot (
   container: Container,
   options?: RootOptions,
 ): RootType {
@@ -165,7 +165,7 @@ export function createBlockingRoot(
 /**
  * 通过实例化 ReactDOMBlockingRoot 类创建 LegacyRoot
  */
-export function createLegacyRoot(
+export function createLegacyRoot (
   container: Container,
   options?: RootOptions,
 ): RootType {
@@ -183,7 +183,7 @@ export function createLegacyRoot(
  *    react 内部会找到注释节点的父级 通过调用父级元素的 insertBefore 方法
  *    将 element 插入到注释节点的前面
  */
-export function isValidContainer(node: mixed): boolean {
+export function isValidContainer (node: mixed): boolean {
   return !!(
     node &&
     (node.nodeType === ELEMENT_NODE ||
@@ -194,7 +194,7 @@ export function isValidContainer(node: mixed): boolean {
   );
 }
 
-function warnIfReactDOMContainerInDEV(container) {
+function warnIfReactDOMContainerInDEV (container) {
   if (__DEV__) {
     if (
       container.nodeType === ELEMENT_NODE &&
@@ -203,23 +203,23 @@ function warnIfReactDOMContainerInDEV(container) {
     ) {
       console.error(
         'createRoot(): Creating roots directly with document.body is ' +
-          'discouraged, since its children are often manipulated by third-party ' +
-          'scripts and browser extensions. This may lead to subtle ' +
-          'reconciliation issues. Try using a container element created ' +
-          'for your app.',
+        'discouraged, since its children are often manipulated by third-party ' +
+        'scripts and browser extensions. This may lead to subtle ' +
+        'reconciliation issues. Try using a container element created ' +
+        'for your app.',
       );
     }
     if (isContainerMarkedAsRoot(container)) {
       if (container._reactRootContainer) {
         console.error(
           'You are calling ReactDOM.createRoot() on a container that was previously ' +
-            'passed to ReactDOM.render(). This is not supported.',
+          'passed to ReactDOM.render(). This is not supported.',
         );
       } else {
         console.error(
           'You are calling ReactDOM.createRoot() on a container that ' +
-            'has already been passed to createRoot() before. Instead, call ' +
-            'root.render() on the existing root instead if you want to update it.',
+          'has already been passed to createRoot() before. Instead, call ' +
+          'root.render() on the existing root instead if you want to update it.',
         );
       }
     }
