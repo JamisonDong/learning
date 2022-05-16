@@ -2,9 +2,18 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 // import App from './App';
 import { createStore } from 'redux'
+import Counter from './components/Counter';
+import { Provider } from 'react-redux';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
+/**
+ * react-redux
+ * Provider
+ * connect
+ */
+
 const initialState = {
   count: 0
 }
@@ -21,35 +30,12 @@ function reducer (state = initialState, action) {
 }
 const store = createStore(reducer)
 
-const increment = { type: 'increment' }
-const decrement = { type: 'decrement' }
-
-
-
-function Counter () {
-  return <div>
-    <button onClick={() => {
-      store.dispatch(increment)
-    }}>+</button>
-    <span>{store.getState().count}</span>
-    <button onClick={() => {
-      store.dispatch(decrement)
-    }}>-</button>
-  </div>
-}
-
-store.subscribe(() => {
-  root.render(
-    <React.StrictMode>
-      <Counter />
-    </React.StrictMode>
-  );
-})
+// const increment = { type: 'increment' }
+// const decrement = { type: 'decrement' }
 
 root.render(
-  <React.StrictMode>
-    <Counter />
-  </React.StrictMode>
+  // 通过Provider 将store放在了全局的组件可以访问到的地方
+  <Provider store={store}><Counter /></Provider>
 );
 
 
