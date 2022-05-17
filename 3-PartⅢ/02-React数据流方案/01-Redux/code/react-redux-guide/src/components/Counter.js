@@ -6,7 +6,7 @@ function Counter (props) {
   // console.log(props);
   const { count, decrement, increment_async } = props
   return <div>
-    <button onClick={() => increment_async(5)}>+</button>
+    <button onClick={increment_async}>+</button>
     <span>{count}</span>
     <button onClick={() => decrement(5)}>-</button>
   </div>
