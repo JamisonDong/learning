@@ -9,4 +9,4 @@ export const decrement = (payload) => ({ type: DECREMENT, payload })
 //   }, 1000)
 // }
 
-export const increment_async = () => ({ type: INCREMENT_ASYNC })
+export const increment_async = (payload) => ({ type: INCREMENT_ASYNC, payload })

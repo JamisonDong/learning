@@ -5,9 +5,9 @@ import { INCREMENT_ASYNC } from "../constant/counter.const"
 // takeEvery 接受action
 // put 出发action
 
-function* increment_async_fn () {
+function* increment_async_fn (action) {
   yield delay(1000)
-  yield put(increment(10))
+  yield put(increment(action.payload))
 }
 
 export default function* counterSaga () {
