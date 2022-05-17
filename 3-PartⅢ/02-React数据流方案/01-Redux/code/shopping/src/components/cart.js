@@ -14,7 +14,7 @@ class Cart extends Component {
         <div className="cart-items">
           <div className="cart-row">
             <div className="cart-item cart-column">
-              <img className="cart-item-image" src="images/01.webp" width="100" height="100" />
+              <img className="cart-item-image" src="images/01.webp" width="100" height="100" alt="" />
               <span className="cart-item-title">小户型简约现代网红双人三人客厅科技布免洗布艺</span>
             </div>
             <span className="cart-price cart-column">￥1020</span>
@@ -25,7 +25,7 @@ class Cart extends Component {
           </div>
           <div className="cart-row">
             <div className="cart-item cart-column">
-              <img className="cart-item-image" src="images/02.webp" width="100" height="100" />
+              <img className="cart-item-image" src="images/02.webp" width="100" height="100" alt="" />
               <span className="cart-item-title">11全网通4G手机官方iPhonexr</span>
             </div>
             <span className="cart-price cart-column">￥4758</span>
