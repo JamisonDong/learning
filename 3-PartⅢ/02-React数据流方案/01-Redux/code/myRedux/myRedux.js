@@ -4,9 +4,18 @@
  * }
  */
 
-function createStore (reducer, preloadedState) {
+function createStore (reducer, preloadedState, enhancer) {
   // 约束reducer参数类型
   if (typeof reducer !== 'function') throw new Error('reducer is not a function')
+
+  // 判断enhancer 参数有没有传递
+  if (typeof enhancer !== 'undefined') {
+    if (typeof enhancer !== 'function') {
+      throw new Error('enhancer is not a function')
+    }
+    return enhancer(createStore)(reducer, preloadedState)
+  }
+
   // store对象中存储的状态
   var currentState = preloadedState
 
