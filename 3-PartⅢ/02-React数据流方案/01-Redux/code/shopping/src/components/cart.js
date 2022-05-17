@@ -10,8 +10,17 @@ class Cart extends Component {
     loadCarts()
   }
 
+  changeProductNumber (cid, event) {
+    const { changeServiceProductNumber } = this.props
+    const count = event.target.value
+    // 向服务器端发送请求 修改商品数量
+    changeServiceProductNumber({ cid, count })
+  }
+
   render () {
-    const { carts, deleteProductFromCart } = this.props
+    const { carts,
+      deleteProductFromCart,
+    } = this.props
     return (
       <section className="container content-section">
         <h2 className="section-header">购物车</h2>
@@ -32,7 +41,7 @@ class Cart extends Component {
                 <div className="cart-quantity cart-column">
                   <input className="cart-quantity-input" type="number"
                     value={product.count}
-                    onChange={() => { }}
+                    onChange={e => this.changeProductNumber(product.id, e)}
                   />
                   <button
                     className="btn btn-danger" type="button"

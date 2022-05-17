@@ -18,3 +18,9 @@ export const deleteProductFromCart = createAction("deleteProductFromCart")
 
 // 6.删除本地购物车中商品
 export const deleteProductFromLocalCart = createAction("deleteProductFromLocalCart")
+
+// 7.修改服务端商品数量
+export const changeServiceProductNumber = createAction("changeServiceProductNumber")
+
+// 8.更新本地商品数量
+export const changeLocalProductNumber = createAction("changeLocalProductNumber")

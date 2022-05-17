@@ -1,5 +1,14 @@
 import { takeEvery, put } from "redux-saga/effects";
-import { addProductToCart, addProductToLocalCart, deleteProductFromCart, deleteProductFromLocalCart, loadCarts, saveCarts } from "../actions/cart.action";
+import {
+  addProductToCart,
+  addProductToLocalCart,
+  changeLocalProductNumber,
+  changeServiceProductNumber,
+  deleteProductFromCart,
+  deleteProductFromLocalCart,
+  loadCarts,
+  saveCarts
+} from "../actions/cart.action";
 import axios from "axios";
 
 function* handleAddProductToCart (action) {
@@ -18,8 +27,17 @@ function* handleDeleteProductFromCart (action) {
   yield put(deleteProductFromLocalCart(data.index))
 }
 
+function* handleChangeServiceProductNumber (action) {
+  const { data } = yield axios.put('http://localhost:3005/cart', action.payload)
+  yield put(changeLocalProductNumber(data))
+}
+
 export default function* cartSaga () {
   yield takeEvery(addProductToCart, handleAddProductToCart)
+
   yield takeEvery(loadCarts, handleLoadCarts)
+
   yield takeEvery(deleteProductFromCart, handleDeleteProductFromCart)
+
+  yield takeEvery(changeServiceProductNumber, handleChangeServiceProductNumber)
 }
