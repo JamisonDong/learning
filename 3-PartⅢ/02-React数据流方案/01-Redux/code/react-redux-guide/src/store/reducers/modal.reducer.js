@@ -1,23 +1,21 @@
-import { DECREMENT, INCREMENT } from "../constant/counter.const"
-
+import { HIDEMODAL, SHOWMODAL } from "../constant/modal.const"
 
 const initialState = {
-  count: 0,
   show: false
 }
 
 /* eslint import/no-anonymous-default-export: [2, {"allowArrowFunction": true}] */
 export default (state = initialState, action) => {
   switch (action.type) {
-    case INCREMENT:
+    case SHOWMODAL:
       return {
         ...state,
-        count: state.count + action.payload
+        show: true
       }
-    case DECREMENT:
+    case HIDEMODAL:
       return {
         ...state,
-        count: state.count - action.payload
+        show: false
       }
     default:
       return state

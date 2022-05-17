@@ -17,7 +17,7 @@ function Counter (props) {
 // 3.connect可以让我们获取dispatch方法
 
 const mapStateToProps = (state) => ({
-  count: state.count,
+  count: state.counter.count,
 })
 
 
