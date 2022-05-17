@@ -1,9 +1,14 @@
 import React from 'react';
+import Cart from './cart';
+import Product from './product';
+
+
 
 function App () {
   return (
     <div className="App">
-      APP working
+      <Product />
+      <Cart />
     </div>
   );
 }
