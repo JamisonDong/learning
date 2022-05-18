@@ -100,3 +100,15 @@ function compose () {
     return dispatch
   }
 }
+
+function bindActionCreators (actionCreators, dispatch) {
+  var boundActionCreators = {}
+
+  for (let key in actionCreators) {
+    boundActionCreators[key] = function () {
+      dispatch(actionCreators[key]())
+    }
+  }
+
+  return boundActionCreators
+}
