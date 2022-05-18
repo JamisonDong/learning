@@ -4,6 +4,7 @@ import { createContext, useContext } from "react"
 
 class TodoListStore {
   todos = []
+  filter = "all"
   constructor(todos) {
     if (todos) {
       this.todos = todos
@@ -12,19 +13,40 @@ class TodoListStore {
       todos: observable,
       createTodo: action,
       removeTodo: action,
-      unCompletedTodoCount: computed
+      unCompletedTodoCount: computed,
+      filter: observable,
+      changeFilter: action,
+      filterTodos: computed,
     })
   }
 
   get unCompletedTodoCount () {
     return this.todos.filter(todo => !todo.completed).length
   }
+
   createTodo (title) {
     this.todos.push(new TodoViewStore(title))
   }
+
   removeTodo (id) {
     const index = this.todos.findIndex(todo => todo.id === id)
     this.todos.splice(index, 1)
+  }
+
+  changeFilter (filter) {
+    this.filter = filter
+  }
+  get filterTodos () {
+    switch (this.filter) {
+      case 'all':
+        return this.todos
+      case 'active':
+        return this.todos.filter(todo => !todo.completed)
+      case 'completed':
+        return this.todos.filter(todo => todo.completed)
+      default:
+        return this.todos
+    }
   }
 }
 

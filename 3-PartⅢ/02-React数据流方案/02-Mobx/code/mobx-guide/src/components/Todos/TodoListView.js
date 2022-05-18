@@ -15,7 +15,7 @@ function TodoListView (props) {
         <input className="toggle-all" type="checkbox" />
         <ul className="todo-list">
           {
-            todoListStore.todos.map(todo => (
+            todoListStore.filterTodos.map(todo => (
               <TodoView todo={todo} key={todo.id} />
             ))
           }

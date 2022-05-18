@@ -12,13 +12,23 @@ function TodoFooter () {
       </span>
       <ul className="filters">
         <li>
-          <button className="selected">All</button>
+          <button
+            className={todoListStore.filter === "all" ? "selected" : ""}
+            onClick={() => todoListStore.changeFilter("all")}
+          >
+            All
+          </button>
         </li>
         <li>
-          <button>Active</button>
+          <button
+            className={todoListStore.filter === "active" ? "selected" : ""}
+            onClick={() => todoListStore.changeFilter("active")}
+          >Active</button>
         </li>
         <li>
-          <button>Completed</button>
+          <button
+            className={todoListStore.filter === "completed" ? "selected" : ""}
+            onClick={() => todoListStore.changeFilter("completed")}>Completed</button>
         </li>
       </ul>
       <button className="clear-completed">Clear completed</button>
