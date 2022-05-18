@@ -1,9 +1,9 @@
-import { useTodoListStore } from "../../stores/TodoStore/TodoListStore"
+import { useRootStore } from "../../stores/RootStore"
 import { observer } from "mobx-react-lite"
 
 function TodoView (props) {
   const { todo } = props
-  const todoListStore = useTodoListStore()
+  const { todoListStore } = useRootStore()
   return (
     <li className={todo.completed ? "completed" : ""}>
       <div className="view">

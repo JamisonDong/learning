@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { useTodoListStore } from "../../stores/TodoStore/TodoListStore";
+import { useRootStore } from "../../stores/RootStore"
 
 function TodoHeader () {
-  const todoListStore = useTodoListStore()
+  const { todoListStore } = useRootStore()
   const [title, setTitle] = useState('');
   return (
     <header className="header">

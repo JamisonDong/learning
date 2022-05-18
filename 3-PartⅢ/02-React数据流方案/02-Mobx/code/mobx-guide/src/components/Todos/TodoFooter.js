@@ -1,9 +1,9 @@
-import { useTodoListStore } from "../../stores/TodoStore/TodoListStore"
 import { observer } from "mobx-react-lite"
+import { useRootStore } from '../../stores/RootStore';
 
 function TodoFooter () {
 
-  const todoListStore = useTodoListStore()
+  const { todoListStore } = useRootStore()
 
   return (
     <footer className="footer">

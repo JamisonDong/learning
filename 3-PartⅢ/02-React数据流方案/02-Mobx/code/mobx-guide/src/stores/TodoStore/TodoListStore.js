@@ -1,6 +1,6 @@
 import TodoViewStore from "./TodoViewStore"
 import { makeObservable, observable, action, computed, runInAction } from "mobx"
-import { createContext, useContext } from "react"
+
 import axios from "axios"
 
 class TodoListStore {
@@ -58,21 +58,6 @@ class TodoListStore {
   }
 }
 
-const TodoListStoreContext = createContext()
 
-const TodoListStoreProvider = ({ store, children }) => {
-  return (
-    <TodoListStoreContext.Provider value={store}>
-      {children}
-    </TodoListStoreContext.Provider>
-  )
-}
-const useTodoListStore = () => {
-  return useContext(TodoListStoreContext)
-}
 
-export {
-  TodoListStore,
-  TodoListStoreProvider,
-  useTodoListStore
-}
+export default TodoListStore

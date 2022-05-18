@@ -1,24 +1,15 @@
 import Counter from './components/Counter'
-import CounterStore from './stores/CounterStore';
 import TodoListView from './components/Todos/TodoListView';
+import { RootStore, RootStoreProvider } from "./stores/RootStore"
 
-import { TodoListStore, TodoListStoreProvider } from './stores/TodoStore/TodoListStore';
-import TodoViewStore from './stores/TodoStore/TodoViewStore';
-
-const todoListStore = new TodoListStore([
-  new TodoViewStore("Hello React"),
-  new TodoViewStore("Hello Mobx")
-])
-
-
-const counterStore = new CounterStore()
+const rootStore = new RootStore()
 
 function App () {
   return (
-    <TodoListStoreProvider store={todoListStore}>
-      <Counter counterStore={counterStore} />
+    <RootStoreProvider store={rootStore}>
+      <Counter />
       <TodoListView />
-    </TodoListStoreProvider>
+    </RootStoreProvider>
   );
 }
 
