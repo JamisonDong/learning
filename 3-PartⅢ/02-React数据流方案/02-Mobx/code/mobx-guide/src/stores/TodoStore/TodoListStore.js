@@ -10,11 +10,16 @@ class TodoListStore {
     }
     makeObservable(this, {
       todos: observable,
-      createTodo: action
+      createTodo: action,
+      removeTodo: action
     })
   }
   createTodo (title) {
     this.todos.push(new TodoViewStore(title))
+  }
+  removeTodo (id) {
+    const index = this.todos.findIndex(todo => todo.id === id)
+    this.todos.splice(index, 1)
   }
 }
 
