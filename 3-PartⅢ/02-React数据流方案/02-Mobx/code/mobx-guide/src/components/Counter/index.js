@@ -17,7 +17,7 @@ function Counter (props) {
       </button>
       <button
         className='button'
-        onClick={() => counterStore.reset()}
+        onClick={counterStore.reset}
       >
         重置
       </button>

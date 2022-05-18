@@ -7,7 +7,7 @@ class CounterStore {
   constructor() {
     // 将参数对象中的属性设置为 observable state
     // 将参数对象中的方法设置为 action
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
   }
   increment () {
     this.count += 1
