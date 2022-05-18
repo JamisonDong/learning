@@ -1,7 +1,8 @@
 import { useState } from "react"
+import { useTodoListStore } from "../../stores/TodoStore/TodoListStore";
 
-function TodoHeader (props) {
-  const { createTodo } = props
+function TodoHeader () {
+  const todoListStore = useTodoListStore()
   const [title, setTitle] = useState('');
   return (
     <header className="header">
@@ -14,7 +15,7 @@ function TodoHeader (props) {
         onChange={event => setTitle(event.target.value)}
         onKeyUp={event => {
           if (event.key === "Enter") {
-            createTodo(title)
+            todoListStore.createTodo(title)
             setTitle("")
           }
         }}
