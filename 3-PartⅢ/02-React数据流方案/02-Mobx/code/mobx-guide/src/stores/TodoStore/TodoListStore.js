@@ -1,5 +1,5 @@
 import TodoViewStore from "./TodoViewStore"
-import { makeObservable, observable, action } from "mobx"
+import { makeObservable, observable, action, computed } from "mobx"
 import { createContext, useContext } from "react"
 
 class TodoListStore {
@@ -11,8 +11,13 @@ class TodoListStore {
     makeObservable(this, {
       todos: observable,
       createTodo: action,
-      removeTodo: action
+      removeTodo: action,
+      unCompletedTodoCount: computed
     })
+  }
+
+  get unCompletedTodoCount () {
+    return this.todos.filter(todo => !todo.completed).length
   }
   createTodo (title) {
     this.todos.push(new TodoViewStore(title))
