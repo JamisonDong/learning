@@ -1,6 +1,6 @@
 import React from 'react'
 // observer: 监控当前组件使用到的由 MobX 跟踪的 observable state, 当状态发生变化时通知 React 更新视图
-import { autorun, runInAction } from "mobx"
+import { autorun, runInAction, reaction } from "mobx"
 import { useEffect } from "react"
 import { observer } from "mobx-react-lite";
 import { useRootStore } from '../../stores/RootStore';
@@ -24,10 +24,17 @@ function Counter (props) {
   // }, [])
 
   useEffect(() => {
-    const person = counterStore.person
-    autorun(() => {
-      console.log(person.name)
-    })
+    // const person = counterStore.person
+    // autorun(() => {
+    //   console.log(person.name)
+    // })
+    reaction(
+      () => counterStore.count,
+      (current, previous) => {
+        console.log(current)
+        console.log(previous)
+      }
+    )
   }, [])
   return (
     <div>
