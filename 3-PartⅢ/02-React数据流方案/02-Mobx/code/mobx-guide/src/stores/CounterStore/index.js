@@ -3,6 +3,7 @@ import { makeAutoObservable } from "mobx";
 
 class CounterStore {
   count = 10
+  person = { name: "张三" }
 
   constructor() {
     // 将参数对象中的属性设置为 observable state
