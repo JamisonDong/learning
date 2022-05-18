@@ -112,3 +112,24 @@ function bindActionCreators (actionCreators, dispatch) {
 
   return boundActionCreators
 }
+
+
+function combineReducers (reducers) {
+  // 检查reducer类型  它必须是函数
+  var reducerKeys = Object.keys(reducers)
+
+  for (var i = 0; i < reducerKeys.length; i++) {
+    var key = reducerKeys[i]
+    if (typeof reducers[key] !== 'function') throw new Error('reducer must be a function')
+  }
+  return function (state, action) {
+    var nextState = {}
+    for (var i = 0; i < reducerKeys.length; i++) {
+      var key = reducerKeys[i]
+      var reducer = reducers[key]
+      var previousStateForKey = state[key]
+      nextState[key] = reducer(previousStateForKey, action)
+    }
+    return nextState
+  }
+}
