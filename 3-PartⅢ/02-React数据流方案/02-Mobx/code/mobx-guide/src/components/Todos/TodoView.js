@@ -1,12 +1,18 @@
 import { useTodoListStore } from "../../stores/TodoStore/TodoListStore"
+import { observer } from "mobx-react-lite"
 
 function TodoView (props) {
   const { todo } = props
   const todoListStore = useTodoListStore()
   return (
-    <li>
+    <li className={todo.completed ? "completed" : ""}>
       <div className="view">
-        <input className="toggle" type="checkbox" />
+        <input
+          checked={todo.completed}
+          className="toggle"
+          type="checkbox"
+          onChange={todo.toggle}
+        />
         <label>{todo.title}</label>
         <button
           className="destroy"
@@ -18,4 +24,4 @@ function TodoView (props) {
   )
 }
 
-export default TodoView
+export default observer(TodoView)
