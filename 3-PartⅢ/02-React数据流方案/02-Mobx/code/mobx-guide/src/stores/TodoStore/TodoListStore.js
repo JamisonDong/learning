@@ -1,6 +1,7 @@
 import TodoViewStore from "./TodoViewStore"
-import { makeObservable, observable, action, computed } from "mobx"
+import { makeObservable, observable, action, computed, runInAction } from "mobx"
 import { createContext, useContext } from "react"
+import axios from "axios"
 
 class TodoListStore {
   todos = []
@@ -18,6 +19,7 @@ class TodoListStore {
       changeFilter: action,
       filterTodos: computed,
     })
+    this.loadTodos()
   }
 
   get unCompletedTodoCount () {
@@ -47,6 +49,12 @@ class TodoListStore {
       default:
         return this.todos
     }
+  }
+
+  async loadTodos () {
+    let todos = await axios.get("http://localhost:3005/todos").then(response => response.data)
+
+    runInAction(() => todos.forEach(todo => this.todos.push(new TodoViewStore(todo.title))))
   }
 }
 
