@@ -50,7 +50,13 @@ function App () {
   }
 
 
-
+  function useUpdateInput (initialState) {
+    const [value, setValue] = useState(initialState);
+    return {
+      value,
+      onChange: event => setValue(event.target.value)
+    }
+  }
 
   function reducer (state, action) {
     switch (action.type) {
@@ -65,12 +71,28 @@ function App () {
 
   const [count, dispatch] = useReducer(reducer, 0)
   const [post, setPost] = useGetPost()
+
+  const usernameInput = useUpdateInput('')
+  const passwordInput = useUpdateInput('')
+  const submitForm = (event) => {
+    event.preventDefault()
+    console.log(usernameInput.value);
+    console.log(passwordInput.value);
+  }
   return (
-    <div>
-      <p>{post.title}</p>
-      <div>{post.body}</div>
-    </div>
+    <form onSubmit={submitForm}>
+      <input type='text' name='username' {...usernameInput} />
+      <input type='password' name='password' {...passwordInput} />
+      <input type='submit' />
+    </form>
   )
+
+  // return (
+  //   <div>
+  //     <p>{post.title}</p>
+  //     <div>{post.body}</div>
+  //   </div>
+  // )
   // return <countContext.Provider value={100}>
   //   <p>{count}</p>
   //   {/* <p>{person.name}</p>
