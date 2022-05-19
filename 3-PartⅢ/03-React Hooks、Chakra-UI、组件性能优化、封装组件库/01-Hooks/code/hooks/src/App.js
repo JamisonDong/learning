@@ -68,9 +68,34 @@ function useEffect (callback, depsAry) {
   }
 }
 
+
+function useReducer (reducer, initialState) {
+  const [state, setState] = useState(initialState)
+  function dispatch (action) {
+    const newState = reducer(state, action)
+    setState(newState)
+  }
+  return [state, dispatch]
+}
+
+
 function App () {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("zs");
+
+
+  function reducer (state, action) {
+    switch (action.type) {
+      case 'increment':
+        return state + 1
+      case 'decrement':
+        return state - 1
+      default:
+        return state
+    }
+  }
+  const [count1, dispatch] = useReducer(reducer, 0)
+
 
   useEffect(() => {
     console.log("hello");
@@ -81,6 +106,7 @@ function App () {
   return (
     <div>
       {count}
+      {count1}
 
       <button onClick={() => setCount(count + 1)}>
         setCount
@@ -89,6 +115,9 @@ function App () {
       <button onClick={() => setName("lisi")}>
         setName
       </button>
+
+      <button onClick={() => dispatch({ type: 'increment' })}>+1</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>-1</button>
     </div>
   )
   // const [person, setPerson] = useState({ name: "张三", age: 20 })
