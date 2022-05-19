@@ -1,6 +1,10 @@
-import React, { /* useState, */ useReducer } from 'react';
+import React, { /* useState, */
+  useReducer,
+  createContext,
+  useContext
+} from 'react';
 
-
+const countContext = createContext()
 
 function App () {
   // const [count, setCount] = useState(0);
@@ -27,7 +31,7 @@ function App () {
 
   const [count, dispatch] = useReducer(reducer, 0)
 
-  return <div>
+  return <countContext.Provider value={100}>
     <p>{count}</p>
     {/* <p>{person.name}</p>
     <p>{person.age}</p> */}
@@ -36,11 +40,22 @@ function App () {
 
     <button onClick={() => dispatch({ type: 'increment' })}>+1</button>
     <button onClick={() => dispatch({ type: 'decrement' })}>-1</button>
-  </div>;
+
+    <Foo />
+  </countContext.Provider>;
 }
 
 function Foo () {
-  return <div>Foo组件</div>
+  const value = useContext(countContext)
+  // return <countContext.Consumer>
+  //   {
+  //     value => {
+  //       return <div>{value}</div>
+  //     }
+  //   }
+  // </countContext.Consumer>
+  return <div>{value}</div>
+
 }
 
 export default App;
