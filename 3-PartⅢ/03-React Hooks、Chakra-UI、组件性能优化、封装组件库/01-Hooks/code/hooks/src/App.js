@@ -1,8 +1,10 @@
 import React, { /* useState, */
   useReducer,
   createContext,
-  useContext
+  useContext,
+  useEffect
 } from 'react';
+import ReactDOM from 'react-dom';
 
 const countContext = createContext()
 
@@ -17,6 +19,23 @@ function App () {
   //     return newCount
   //   })
   // }
+
+  // 组件挂在完成 和更新后执行
+  // useEffect(() => {
+  //   console.log(count);
+  // })
+
+  // 组件挂载完成
+  // useEffect(() => {
+  //   console.log(count);
+  // }, [])
+
+  // 组件卸载执行
+  useEffect(() => {
+    return () => {
+      console.log('组件被卸载');
+    }
+  })
 
   function reducer (state, action) {
     switch (action.type) {
@@ -40,9 +59,9 @@ function App () {
 
     <button onClick={() => dispatch({ type: 'increment' })}>+1</button>
     <button onClick={() => dispatch({ type: 'decrement' })}>-1</button>
-
+    <button onClick={() => ReactDOM.unmountComponentAtNode(document.getElementById('root'))}>卸载组件</button>
     <Foo />
-  </countContext.Provider>;
+  </countContext.Provider >;
 }
 
 function Foo () {
