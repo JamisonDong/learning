@@ -19,6 +19,7 @@ let stateIndex = 0
 
 function render () {
   stateIndex = 0
+  effectIndex = 0
   ReactDOM.render(<App />, document.getElementById("root"))
 }
 
@@ -39,10 +40,44 @@ function useState (initialState) {
   return [value, setter]
 }
 
+// 上一次的依赖值
+let prevDepAry = []
+let effectIndex = 0
+function useEffect (callback, depsAry) {
+  if (Object.prototype.toString.call(callback) !== '[object Function]') {
+    throw new Error('callback is not a function')
+  }
+  if (typeof depsAry === 'undefined') {
+    callback()
+  } else {
+    if (Object.prototype.toString.call(depsAry) !== "[object Array]") {
+      throw new Error('the second param is not a array')
+    }
+    // 获取上一次的状态值
+    let prevDeps = prevDepAry[effectIndex]
+    // 对比依赖值 有变化则调用callback
+    let hasChanged = prevDeps ? depsAry.every((dep, index) => dep === prevDeps[index]) === false : true
+
+
+    if (hasChanged) {
+      callback()
+    }
+    // 同步依赖值
+    prevDepAry[effectIndex] = depsAry
+    effectIndex++
+  }
+}
+
 function App () {
   const [count, setCount] = useState(0);
   const [name, setName] = useState("zs");
 
+  useEffect(() => {
+    console.log("hello");
+  }, [count])
+  useEffect(() => {
+    console.log("world");
+  }, [name])
   return (
     <div>
       {count}
