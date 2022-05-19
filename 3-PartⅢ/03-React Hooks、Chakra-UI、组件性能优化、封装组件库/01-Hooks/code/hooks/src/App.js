@@ -1,10 +1,12 @@
-import React, { /* useState, */
+import React, {
+  useState,
   useReducer,
   createContext,
   useContext,
   useEffect
 } from 'react';
 import ReactDOM from 'react-dom';
+import axios from "axios"
 
 const countContext = createContext()
 
@@ -31,11 +33,24 @@ function App () {
   // }, [])
 
   // 组件卸载执行
-  useEffect(() => {
-    return () => {
-      console.log('组件被卸载');
-    }
-  })
+  // useEffect(() => {
+  //   return () => {
+  //     console.log('组件被卸载');
+  //   }
+  // })
+
+
+  // 自定义hook
+  function useGetPost () {
+    const [post, setPost] = useState({});
+    useEffect(() => {
+      axios.get("https://jsonplaceholder.typicode.com/posts/1").then(response => setPost(response.data))
+    }, [])
+    return [post, setPost]
+  }
+
+
+
 
   function reducer (state, action) {
     switch (action.type) {
@@ -49,19 +64,25 @@ function App () {
   }
 
   const [count, dispatch] = useReducer(reducer, 0)
+  const [post, setPost] = useGetPost()
+  return (
+    <div>
+      <p>{post.title}</p>
+      <div>{post.body}</div>
+    </div>
+  )
+  // return <countContext.Provider value={100}>
+  //   <p>{count}</p>
+  //   {/* <p>{person.name}</p>
+  //   <p>{person.age}</p> */}
+  //   {/* <button onClick={handleCount}>+1</button> */}
+  //   {/* <button onClick={() => setPerson({ name: "李四", age: 30 })}>setPerson</button> */}
 
-  return <countContext.Provider value={100}>
-    <p>{count}</p>
-    {/* <p>{person.name}</p>
-    <p>{person.age}</p> */}
-    {/* <button onClick={handleCount}>+1</button> */}
-    {/* <button onClick={() => setPerson({ name: "李四", age: 30 })}>setPerson</button> */}
-
-    <button onClick={() => dispatch({ type: 'increment' })}>+1</button>
-    <button onClick={() => dispatch({ type: 'decrement' })}>-1</button>
-    <button onClick={() => ReactDOM.unmountComponentAtNode(document.getElementById('root'))}>卸载组件</button>
-    <Foo />
-  </countContext.Provider >;
+  //   <button onClick={() => dispatch({ type: 'increment' })}>+1</button>
+  //   <button onClick={() => dispatch({ type: 'decrement' })}>-1</button>
+  //   <button onClick={() => ReactDOM.unmountComponentAtNode(document.getElementById('root'))}>卸载组件</button>
+  //   <Foo />
+  // </countContext.Provider >;
 }
 
 function Foo () {
