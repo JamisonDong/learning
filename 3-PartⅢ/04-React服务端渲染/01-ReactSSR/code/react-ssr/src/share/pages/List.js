@@ -10,6 +10,7 @@ function List (props) {
 
   return (
     <div>
+      List page Working
       <ul>
         {
           user.map(item => (
@@ -22,10 +23,17 @@ function List (props) {
   )
 }
 
+export function loadData (store) {
+  return store.dispatch(fetchUser())
+}
+
 const mapStateToProps = (state) => ({
   user: state.user
 })
 
 
-export default connect(mapStateToProps)(List)
+export default {
+  component: connect(mapStateToProps)(List),
+  loadData
+}
 

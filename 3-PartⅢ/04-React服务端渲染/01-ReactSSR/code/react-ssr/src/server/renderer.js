@@ -3,12 +3,19 @@ import { renderToString } from "react-dom/server"
 import { StaticRouter } from "react-router-dom"
 import { renderRoutes } from "react-router-config"
 import routes from "../share/routes";
+import { Provider } from "react-redux"
 
-export default req => {
+
+
+export default (req, store) => {
   const content = renderToString(
-    <StaticRouter location={req.path}>
-      {renderRoutes(routes)}
-    </StaticRouter>)
+    <Provider store={store}>
+      <StaticRouter location={req.path}>
+        {renderRoutes(routes)}
+      </StaticRouter>
+    </Provider>
+  )
+  const initialState = JSON.stringify(store.getState())
   return `
   <html>
     <head>
@@ -18,7 +25,8 @@ export default req => {
     </head>
     <body>
       <div id="root">${content}</div>
-      <script src="bundle.js"></script>
+      <script>window.INITIAL_STATE=${initialState}</script>
+      <script src="bundle.js"></>
     </body>
   </html>
 `
