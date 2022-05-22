@@ -1,5 +1,8 @@
+import { useRouter } from "next/router"
 
 export default function Post ({ data }) {
+  const router = useRouter()
+  if (router.isFallback) return <div>loading</div>
   return (
     <div>
       <span>{data.id}</span>
@@ -12,12 +15,13 @@ export default function Post ({ data }) {
 export async function getStaticPaths () {
   return {
     paths: [{ params: { id: "1" } }, { params: { id: "2" } }],
-    fallback: false
+    fallback: true
   }
 }
 
 // 返回路由参数所对应的具体的数据
 export async function getStaticProps ({ params }) {
+  console.log("Hello world");
   const id = params.id
   let data
   switch (id) {
@@ -26,6 +30,9 @@ export async function getStaticProps ({ params }) {
       break;
     case "2":
       data = { id: "2", title: "world" }
+      break;
+    case "3":
+      data = { id: "3", title: "hello world" }
       break;
     default:
       data = {}
